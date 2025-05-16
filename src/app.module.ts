@@ -2,6 +2,9 @@
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { EstudianteModule } from './estudiante/estudiante.module';
+import { ActividadModule } from './actividad/actividad.module';
+import { ReseñaModule } from './reseña/reseña.module';
 
 @Module({
   imports: [
@@ -16,6 +19,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       dropSchema: true,
       synchronize: true,
     }),
+    EstudianteModule,
+    ActividadModule,
+    ReseñaModule,
 
   ],
   controllers: [AppController],

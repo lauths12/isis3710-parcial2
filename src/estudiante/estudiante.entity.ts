@@ -1,6 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { ActividadEntity } from 'src/actividad/actividad.entity';
-import { ReseñaEntity } from 'src/reseña/reseña.entity';
+
 import {
   Column,
   Entity,
@@ -8,6 +7,9 @@ import {
   OneToMany,
   ManyToMany,
 } from 'typeorm';
+
+import { ReseñaEntity } from 'src/reseña/reseña.entity';
+import { ActividadEntity } from 'src/actividad/actividad.entity';
 
 @Entity()
 export class Estudiante {

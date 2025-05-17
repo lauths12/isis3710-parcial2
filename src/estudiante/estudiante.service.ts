@@ -1,5 +1,4 @@
 /* eslint-disable prettier/prettier */
-
 import {
   Injectable,
   BadRequestException,
@@ -8,7 +7,6 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { EstudianteEntity } from './estudiante.entity';
-import { ActividadEntity } from '../actividad/actividad.entity';
 
 @Injectable()
 export class EstudianteService {
@@ -16,8 +14,6 @@ export class EstudianteService {
     @InjectRepository(EstudianteEntity)
     private readonly estudianteRepository: Repository<EstudianteEntity>,
 
-    @InjectRepository(ActividadEntity)
-    private readonly actividadRepository: Repository<ActividadEntity>,
   ) {}
 
   private validarEmail(email: string): boolean {
@@ -48,53 +44,5 @@ export class EstudianteService {
       throw new NotFoundException(`Estudiante con id ${id} no encontrado`);
     }
     return estudiante;
-  }
-
-  async inscribirseActividad(
-    estudianteId: number,
-    actividadId: number,
-
-  ): Promise<ActividadEntity> {
-    const estudiante = await this.estudianteRepository.findOne({
-      where: { id: estudianteId },
-    });
-    if (!estudiante) {
-      throw new NotFoundException(
-        `Estudiante con id ${estudianteId} no encontrado`,
-      );
-    }
-
-    const actividad = await this.actividadRepository.findOne({
-      where: { id: actividadId },
-      relations: ['estudiantes'],
-    });
-    if (!actividad) {
-      throw new NotFoundException(
-        `Actividad con id ${actividadId} no encontrada`,
-      );
-    }
-
-    if (actividad.estado !== 0) {
-      throw new BadRequestException(
-        'La actividad no está en estado disponible (0)',
-      );
-    }
-
-    if (actividad.estudiantes.length >= actividad.cupoMaximo) {
-      throw new BadRequestException('La actividad no tiene cupo disponible');
-    }
-
-    const estaInscrito = actividad.estudiantes.some(
-      (est) => est.id === estudiante.id,
-    );
-    if (estaInscrito) {
-      throw new BadRequestException(
-        'El estudiante ya está inscrito en esta actividad',
-      );
-    }
-
-    actividad.estudiantes.push(estudiante);
-    await this.actividadRepository.save(actividad);
-    return actividad;
   }
 }

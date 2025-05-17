@@ -3,7 +3,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { EstudianteService } from './estudiante.service';
 import { EstudianteEntity } from './estudiante.entity';
-import { ActividadEntity } from 'src/actividad/actividad.entity';
 import { NotFoundException, BadRequestException } from '@nestjs/common';
 
 const mockRepository = () => ({
@@ -14,7 +13,6 @@ const mockRepository = () => ({
 describe('EstudianteService', () => {
   let service: EstudianteService;
   let estudianteRepo: ReturnType<typeof mockRepository>;
-  let actividadRepo: ReturnType<typeof mockRepository>;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -27,7 +25,6 @@ describe('EstudianteService', () => {
 
     service = module.get<EstudianteService>(EstudianteService);
     estudianteRepo = module.get('EstudianteEntityRepository');
-    actividadRepo = module.get('ActividadEntityRepository');
   });
 
   describe('crearEstudiante', () => {
@@ -111,107 +108,6 @@ describe('EstudianteService', () => {
 
       await expect(service.findEstudianteById(999)).rejects.toThrow(
         NotFoundException,
-      );
-    });
-  });
-
-  describe('inscribirseActividad', () => {
-    const estudiante = { id: 1 } as EstudianteEntity;
-
-    it('debería inscribir estudiante a actividad si todo es válido', async () => {
-      const actividad = {
-        id: 2,
-        estado: 0,
-        cupoMaximo: 2,
-        estudiantes: [],
-        save: jest.fn(),
-      } as any as ActividadEntity; 
-
-      estudianteRepo.findOne.mockResolvedValue(estudiante);
-      actividadRepo.findOne.mockResolvedValue(actividad);
-      actividadRepo.save.mockResolvedValue(actividad);
-
-      actividad.estudiantes.push = jest.fn();
-
-      const result = await service.inscribirseActividad(
-        estudiante.id,
-        actividad.id,
-      );
-
-      expect(estudianteRepo.findOne).toHaveBeenCalledWith({
-        where: { id: estudiante.id },
-      });
-      expect(actividadRepo.findOne).toHaveBeenCalledWith({
-        where: { id: actividad.id },
-        relations: ['estudiantes'],
-      });
-      expect(actividad.estudiantes.push).toHaveBeenCalledWith(estudiante);
-      expect(actividadRepo.save).toHaveBeenCalledWith(actividad);
-      expect(result).toEqual(actividad);
-    });
-
-    it('debería lanzar NotFoundException si estudiante no existe', async () => {
-      estudianteRepo.findOne.mockResolvedValue(undefined);
-
-      await expect(service.inscribirseActividad(99, 2)).rejects.toThrow(
-        NotFoundException,
-      );
-    });
-
-    it('debería lanzar NotFoundException si actividad no existe', async () => {
-      estudianteRepo.findOne.mockResolvedValue(estudiante);
-      actividadRepo.findOne.mockResolvedValue(undefined);
-
-      await expect(service.inscribirseActividad(1, 99)).rejects.toThrow(
-        NotFoundException,
-      );
-    });
-
-    it('debería lanzar BadRequestException si actividad no está disponible', async () => {
-      const actividad = {
-        id: 2,
-        estado: 1,
-        cupoMaximo: 2,
-        estudiantes: [],
-      } as unknown as ActividadEntity;
-
-      estudianteRepo.findOne.mockResolvedValue(estudiante);
-      actividadRepo.findOne.mockResolvedValue(actividad);
-
-      await expect(service.inscribirseActividad(1, 2)).rejects.toThrow(
-        BadRequestException,
-      );
-    });
-
-    it('debería lanzar BadRequestException si no hay cupo', async () => {
-      const actividad = {
-        id: 2,
-        estado: 0,
-        cupoMaximo: 1,
-        estudiantes: [{ id: 10 }],
-      } as ActividadEntity;
-
-      estudianteRepo.findOne.mockResolvedValue(estudiante);
-      actividadRepo.findOne.mockResolvedValue(actividad);
-
-      await expect(service.inscribirseActividad(1, 2)).rejects.toThrow(
-        BadRequestException,
-      );
-    });
-
-    it('debería lanzar BadRequestException si estudiante ya está inscrito', async () => {
-      const actividad = {
-        id: 2,
-        estado: 0,
-        cupoMaximo: 2,
-        estudiantes: [{ id: 1 }],
-      } as ActividadEntity;
-
-      estudianteRepo.findOne.mockResolvedValue(estudiante);
-      actividadRepo.findOne.mockResolvedValue(actividad);
-
-      await expect(service.inscribirseActividad(1, 2)).rejects.toThrow(
-        BadRequestException,
       );
     });
   });

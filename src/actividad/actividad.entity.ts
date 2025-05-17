@@ -1,8 +1,7 @@
 /* eslint-disable prettier/prettier */
-
-import { EstudianteEntity } from "src/estudiante/estudiante.entity";
 import { Column, Entity, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { ReseñaEntity } from "src/reseña/reseña.entity";
+import { ReseñaEntity } from "../reseña/reseña.entity";
+import { EstudianteEntity } from "../estudiante/estudiante.entity";
 
 @Entity()
 export class ActividadEntity {

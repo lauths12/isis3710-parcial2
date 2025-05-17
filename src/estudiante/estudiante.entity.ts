@@ -8,8 +8,9 @@ import {
   ManyToMany,
 } from 'typeorm';
 
-import { ReseñaEntity } from 'src/reseña/reseña.entity';
-import { ActividadEntity } from 'src/actividad/actividad.entity';
+import { ReseñaEntity } from '../reseña/reseña.entity';
+import { ActividadEntity } from '../actividad/actividad.entity';
+
 
 @Entity()
 export class EstudianteEntity {

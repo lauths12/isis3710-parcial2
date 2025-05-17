@@ -8,7 +8,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { EstudianteEntity } from './estudiante.entity';
-import { ActividadEntity } from 'src/actividad/actividad.entity';
+import { ActividadEntity } from '../actividad/actividad.entity';
 
 @Injectable()
 export class EstudianteService {

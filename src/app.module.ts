@@ -1,4 +1,5 @@
-/* eslint-disable prettier/prettier*/import { Module } from '@nestjs/common';
+/* eslint-disable prettier/prettier*/
+import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -15,7 +16,7 @@ import { ReseñaModule } from './reseña/reseña.module';
       username: 'postgres',
       password: '1234',
       database: 'postgres',
-      entities: [],
+      entities: [EstudianteModule, ActividadModule, ReseñaModule],
       dropSchema: true,
       synchronize: true,
     }),

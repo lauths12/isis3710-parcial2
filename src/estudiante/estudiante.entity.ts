@@ -12,7 +12,7 @@ import { ReseñaEntity } from 'src/reseña/reseña.entity';
 import { ActividadEntity } from 'src/actividad/actividad.entity';
 
 @Entity()
-export class Estudiante {
+export class EstudianteEntity {
   @PrimaryGeneratedColumn('increment')
   id: number;
 
@@ -34,4 +34,3 @@ export class Estudiante {
   @ManyToMany(() => ActividadEntity, (actividad) => actividad.estudiantes)
   actividades: ActividadEntity[];
 }
-export class EstudianteEntity {}

@@ -1,0 +1,58 @@
+{
+	"info": {
+		"_postman_id": "8619b481-4165-4daa-8234-65edab94290d",
+		"name": "EstudianteActividad Copy",
+		"description": "**Inscribir estudiante a una actividad** : Este caso representa la funcionalidad principal de asociación entre entidades. Se probó para validar que el sistema pueda vincular correctamente estudiantes con actividades.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "45052937",
+		"_collection_link": "https://lauracarretero.postman.co/workspace/467c7c17-58ac-4fb2-8c02-8b36e4a58f61/collection/45052937-8619b481-4165-4daa-8234-65edab94290d?action=share&source=collection_link&creator=45052937"
+	},
+	"item": [
+		{
+			"name": "Inscribir estudiante a una actividad",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = pm.response.json()\r",
+							"\r",
+							"\r",
+							"pm.test(\"Status code is 201\", function () {\r",
+							"   pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/estudiantes/{{estudiante_id}}/actividades/{{actividad_id}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"estudiantes",
+						"{{estudiante_id}}",
+						"actividades",
+						"{{actividad_id}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

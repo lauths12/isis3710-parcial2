@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Column, Entity, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { ReseñaEntity } from "../reseña/reseña.entity";
 import { EstudianteEntity } from "../estudiante/estudiante.entity";
 
@@ -22,6 +22,7 @@ export class ActividadEntity {
     estado: number;
 
     @ManyToMany(() => EstudianteEntity, estudiante => estudiante.actividades)
+    @JoinTable()
     estudiantes: EstudianteEntity[];
 
     @OneToMany(()=> ReseñaEntity, reseña => reseña.actividad)

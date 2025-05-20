@@ -1,11 +1,15 @@
 /* eslint-disable prettier/prettier */
-import {IsNotEmpty, IsString} from 'class-validator';
+import {IsNotEmpty, IsNumber, IsString} from 'class-validator';
 
 export class EstudianteDto {
 
     @IsString()
     @IsNotEmpty()
     readonly nombre: string;
+
+    @IsNumber()
+    @IsNotEmpty()
+    readonly cedula: number;
 
     @IsString()
     @IsNotEmpty()
@@ -15,7 +19,7 @@ export class EstudianteDto {
     @IsNotEmpty()
     readonly programa: string;
 
-    @IsString()
+    @IsNumber()
     @IsNotEmpty()
     readonly semestre: number;
     

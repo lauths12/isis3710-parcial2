@@ -26,7 +26,7 @@ export class EstudianteActividadService {
     });
     if (!actividad)
       throw new NotFoundException(
-        'The actividad with the given id was not found',
+        'No se encontró la actividad con el id proporcionado.',
       );
 
     const estudiante = await this.estudianteRepository.findOne({
@@ -35,7 +35,7 @@ export class EstudianteActividadService {
     });
     if (!estudiante)
       throw new NotFoundException(
-        'The Estudiante with the given id was not found',
+        'No se encontró al estudiante con el id proporcionado',
       );
 
     estudiante.actividades = [...estudiante.actividades, actividad];
@@ -48,6 +48,7 @@ export class EstudianteActividadService {
   ): Promise<ActividadEntity> {
     const estudiante = await this.estudianteRepository.findOne({
       where: { id: estudianteId },
+
     });
     if (!estudiante) {
       throw new NotFoundException(
@@ -88,4 +89,6 @@ export class EstudianteActividadService {
     await this.actividadRepository.save(actividad);
     return actividad;
   }
+
+
 }

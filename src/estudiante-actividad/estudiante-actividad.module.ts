@@ -13,4 +13,4 @@ import { EstudianteActividadController } from './estudiante-actividad.controller
   providers: [EstudianteService, EstudianteActividadService],
   controllers: [EstudianteActividadController],
 })
-export class EstudianteModule {}
+export class EstudianteActividadModule {}

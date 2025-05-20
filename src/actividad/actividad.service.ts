@@ -1,7 +1,11 @@
 /* eslint-disable prettier/prettier */
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  BadRequestException,
+  NotFoundException,
+} from '@nestjs/common';
 import { ActividadEntity } from './actividad.entity';
 
 @Injectable()
@@ -13,7 +17,9 @@ export class ActividadService {
 
   async crearActividad(actividad: ActividadEntity): Promise<ActividadEntity> {
     if (!actividad.titulo || actividad.titulo.length < 15) {
-      throw new BadRequestException('El título debe tener al menos 15 caracteres');
+      throw new BadRequestException(
+        'El título debe tener al menos 15 caracteres',
+      );
     }
 
     if (!/^[a-zA-Z0-9\s]+$/.test(actividad.titulo)) {
@@ -34,18 +40,20 @@ export class ActividadService {
       throw new BadRequestException('Estado inválido');
     }
 
-    if (estado === 1) {
-      if (!actividad.cupoMaximo || actividad.cupoMaximo <= 0) {
-        throw new BadRequestException('Datos de cupo incompletos');
+    if (estado === 1 && actividad.estado === 0) {
+      const cupoLleno = actividad.estudiantes.length * 0.8;
+      if (actividad.estudiantes.length < cupoLleno) {
+        throw new BadRequestException(
+          'No se puede cerrar la actividad: se requiere al menos el 80% de participación de los estudiantes registrados',
+        );
       }
-      throw new BadRequestException(
-        'Para validar el 80% del cupo lleno es necesario contar inscritos (no implementado aquí)',
-      );
     }
 
     if (estado === 2) {
       if (actividad.cupoMaximo > 0) {
-        throw new BadRequestException('Solo se puede finalizar si no hay cupo disponible');
+        throw new BadRequestException(
+          'Solo se puede finalizar si no hay cupo disponible',
+        );
       }
     }
 
@@ -54,8 +62,13 @@ export class ActividadService {
   }
 
   async findAllActividadesByDate(fecha: string): Promise<ActividadEntity[]> {
-    return this.actividadRepository.find({
+    if (!fecha) {
+      throw new BadRequestException('La fecha es obligatoria');
+    }
+
+    return await this.actividadRepository.find({
       where: { fecha },
+      relations: ['estudiantes', 'reseñas'],
     });
   }
 }

@@ -1,0 +1,129 @@
+{
+	"info": {
+		"_postman_id": "318a9f5e-8571-47a7-bcca-c3fdf21c8db5",
+		"name": "Actividad",
+		"description": "- **Agregar actividad** : Se probó para confirmar que el sistema permite registrar nuevas actividades correctamente. Esta función es fundamental para crear un catalogo mas amplio de actividades disponibles.\n    \n- **Obtener todas las actividades** : Se verificó que las actividades puedan ser consultadas, permitiendo a los usuarios acceder a la información necesaria para decidir en cuál participar.\n    \n- **Actualizar estado de una actividad** : Esta prueba valida que se puede cambiar el estado de una actividad (por ejemplo, de activa a cerrada), lo cual es crucial para gestionar su disponibilidad.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "45052937",
+		"_collection_link": "https://lauracarretero.postman.co/workspace/467c7c17-58ac-4fb2-8c02-8b36e4a58f61/collection/45052937-318a9f5e-8571-47a7-bcca-c3fdf21c8db5?action=share&source=collection_link&creator=45052937"
+	},
+	"item": [
+		{
+			"name": "Agregar actividad",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = pm.response.json()\r",
+							"pm.globals.set(\"actividad_id\", data.id);\r",
+							"pm.globals.set(\"fecha_actividad\", data.fecha)\r",
+							"\r",
+							"pm.test(\"Status code is 201\", function () {\r",
+							"   pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"titulo\": \"Taller de Arduino\",\r\n  \"fecha\": \"2025-05-20\",\r\n  \"cupoMaximo\": 30,\r\n  \"estado\": 0,\r\n  \"estudiantes\":{\r\n    \"nombre\":\"Francisco Lopez\"\r\n  }\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/actividades",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"actividades"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener todas las actividades por una fecha especifica",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"   pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/actividades/{{fecha_actividad}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"actividades",
+						"{{fecha_actividad}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar estado de una actividad",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"   pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"titulo\": \"Taller de Arduino\",\r\n  \"fecha\": \"2025-05-20\",\r\n  \"cupoMaximo\": 30,\r\n  \"estado\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/actividades/{{actividad_id}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"actividades",
+						"{{actividad_id}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

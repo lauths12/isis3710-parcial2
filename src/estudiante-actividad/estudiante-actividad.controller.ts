@@ -1,6 +1,19 @@
 /* eslint-disable prettier/prettier */
+import { Body, Controller, Param, ParseIntPipe, Post } from '@nestjs/common';
+import { EstudianteActividadService } from './estudiante-actividad.service';
+import { ActividadEntity } from '../actividad/actividad.entity';
 
-import { Controller } from '@nestjs/common';
+@Controller('estudiantes')
+export class EstudianteActividadController {
+  constructor(private readonly estudianteActividadService: EstudianteActividadService) {}
 
-@Controller('estudiante-actividad')
-export class EstudianteActividadController {}
+  @Post(':estudianteId/actividades/:actividadId')
+  async inscribirseActividad(
+    @Param('estudianteId', ParseIntPipe) estudianteId: number,
+    @Param('actividadId', ParseIntPipe) actividadId: number,
+  ): Promise<ActividadEntity> {
+    return await this.estudianteActividadService.inscribirseActividad(estudianteId, actividadId);
+  }
+
+
+}

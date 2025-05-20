@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { IsNotEmpty, IsString } from "class-validator";
+import { IsNotEmpty, IsNumber, IsString } from "class-validator";
 
 
 export class ReseñaDto {
@@ -7,7 +7,7 @@ export class ReseñaDto {
     @IsNotEmpty()
     readonly comentario: string;
 
-    @IsString()
+    @IsNumber()
     @IsNotEmpty()
     readonly calificacion: number;
 

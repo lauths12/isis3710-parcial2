@@ -21,6 +21,9 @@ export class EstudianteEntity {
   nombre: string;
 
   @Column()
+  cedula: number;
+
+  @Column()
   correo: string;
 
   @Column()

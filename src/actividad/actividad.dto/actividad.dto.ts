@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class ActividadDto {
   @IsString()
@@ -11,11 +11,11 @@ export class ActividadDto {
   @IsNotEmpty()
   readonly fecha: string;
 
-  @IsString()
+  @IsNumber()
   @IsNotEmpty()
   readonly cupoMaximo: number;
 
-  @IsString()
+  @IsNumber()
   @IsNotEmpty()
-  readonly estado: string;
+  readonly estado: number;
 }
